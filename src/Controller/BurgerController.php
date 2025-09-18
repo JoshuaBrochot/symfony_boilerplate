@@ -12,7 +12,20 @@ class BurgerController extends AbstractController
     #[Route('/list', name: 'list')]
     public function liste(): Response
     {
-        $burgers = ["Burger 1", "Burger 2", "Burger 3"];
+        $burgers = [
+            [
+                'id' => 1,
+                'name' => "cheeseburger"
+            ],
+            [
+                'id' => 2,
+                'name' => "smashburger"
+            ],
+            [
+                'id' => 3,
+                'name' => "CRUD burger"
+            ]
+        ];
  
         return $this->render('burgers_list.html.twig', [
             'burgers' => $burgers,
