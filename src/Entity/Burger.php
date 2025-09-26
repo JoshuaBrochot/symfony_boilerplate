@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\BurgerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: BurgerRepository::class)]
 class Burger
@@ -16,8 +18,34 @@ class Burger
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'float')]
     private ?float $price = null;
+
+    #[ORM\ManyToOne(targetEntity: Pain::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Pain $pain = null;
+
+    #[ORM\ManyToMany(targetEntity: Oignon::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Collection $oignons;
+
+    #[ORM\ManyToMany(targetEntity: Sauce::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Collection $sauces;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Image $image = null;
+
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'burger', cascade: ['persist', 'remove'])]
+    private Collection $commentaires;
+
+    public function __construct()
+    {
+        $this->oignons = new ArrayCollection();
+        $this->sauces = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -32,7 +60,6 @@ class Burger
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -44,7 +71,89 @@ class Burger
     public function setPrice(float $price): static
     {
         $this->price = $price;
+        return $this;
+    }
 
+
+    public function getPain(): ?Pain
+    {
+        return $this->pain;
+    }
+
+    public function setPain(?Pain $pain): static
+    {
+        $this->pain = $pain;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Oignon[]
+     */
+    public function getOignons(): Collection
+    {
+        return $this->oignons;
+    }
+
+    public function addOignon(Oignon $oignon): static
+    {
+        if (!$this->oignons->contains($oignon)) {
+            $this->oignons->add($oignon);
+        }
+        return $this;
+    }
+
+    public function removeOignon(Oignon $oignon): static
+    {
+        $this->oignons->removeElement($oignon);
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sauce[]
+     */
+    public function getSauces(): Collection
+    {
+        return $this->sauces;
+    }
+
+    public function addSauce(Sauce $sauce): static
+    {
+        if (!$this->sauces->contains($sauce)) {
+            $this->sauces->add($sauce);
+        }
+        return $this;
+    }
+
+    public function removeSauce(Sauce $sauce): static
+    {
+        $this->sauces->removeElement($sauce);
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): static
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commentaire[]
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+        }
         return $this;
     }
 }

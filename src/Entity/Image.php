@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Burger;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 

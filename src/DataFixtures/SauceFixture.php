@@ -6,7 +6,7 @@ use App\Entity\Sauce;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
  
-class SauceFixtures extends Fixture
+class SauceFixture extends Fixture
 { 
     public function load(ObjectManager $manager): void
     {

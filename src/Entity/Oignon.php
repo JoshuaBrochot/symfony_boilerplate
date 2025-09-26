@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Entity;
-
 use App\Repository\OignonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
